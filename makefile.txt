@@ -1,0 +1,45 @@
+# Variables
+VENV = venv
+PYTHON = $(VENV)/bin/python
+PIP = $(VENV)/bin/pip
+REQS = requirements.txt
+
+# Rules
+
+# Create virtual environment
+venv:
+	python3 -m venv $(VENV)
+
+# Install dependencies from requirements.txt
+install: venv
+	$(PIP) install -r $(REQS)
+
+# Run the development server
+run: venv
+	$(PYTHON) manage.py runserver
+
+# Apply database migrations
+migrate: venv
+	$(PYTHON) manage.py migrate
+
+# Create new migrations
+makemigrations: venv
+	$(PYTHON) manage.py makemigrations
+
+# Create a superuser
+createsuperuser: venv
+	$(PYTHON) manage.py createsuperuser
+
+# Clean up temporary files and the virtual environment
+clean:
+	rm -rf __pycache__ $(VENV)
+
+# Show available commands
+help:
+	@echo "Available commands:"
+	@echo "  make install         - Create virtual environment and install dependencies"
+	@echo "  make run             - Run the development server"
+	@echo "  make migrate         - Apply database migrations"
+	@echo "  make makemigrations  - Create new migrations"
+	@echo "  make createsuperuser - Create a superuser"
+	@echo "  make clean           - Clean up temporary files"
