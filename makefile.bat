@@ -1,28 +1,44 @@
+@echo off
+REM Simula un Makefile con varias reglas en un archivo batch
 
-# Variables
-VENV = venv
-PYTHON = (VENV)\Scripts\python.exe
-PIP = (VENV)\Scripts\pip.exe
-REQS = requirements.txt
+if "%1" == "requirements" goto setup
+if "%1" == "lint" goto lint
+if "%1" == "test" goto test
+if "%1" == "run" goto run
+if "%1" == "migrate" goto migrate
+if "%1" == "help" goto help
+goto end
 
-# Rules
-venv:
-	python -m venv VENV
 
-install: venv
-	PIP install -r REQS
 
-run: venv
-	PYTHON manage.py runserver
+:setup
+pip install -r requirements.txt
+goto end
 
-migrate: venv
-	PYTHON manage.py migrate
+:lint
+ruff format .
+goto end
 
-makemigrations: venv
-	PYTHON manage.py makemigrations
+:test
+pytohn manage.py test
+goto end
 
-createsuperuser: venv
-	PYTHON manage.py createsuperuser
+:run
+python manage.py runserver
+goto end
 
-clean:
-	rmdir /s /q __pycache__ VENV
+:migrate
+python manage.py makemigrations
+python manage.py migrate
+goto end
+
+:help
+echo Available Commands:
+echo requirements      Create and activate the Virtual environment, and install dependencies
+echo lint       Format python files
+echo test       Run Django tests
+echo run        Run Django server
+echo migrate    Apply modifications to Database
+goto end
+
+:end
