@@ -10,6 +10,6 @@ class ProductTypeAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 @admin.register(Product)
-class PorductAdmin(admin.ModelAdmin):
-    list_display = ['Product_id', 'Product_name', 'price' , 'Available', 'Description']
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['Product_id', 'Product_Name', 'Price' , 'Available', 'Description']
     search_fields = ['name', 'Description']
