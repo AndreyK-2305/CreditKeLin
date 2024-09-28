@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='credit',
             name='Payment_id',
-            field=models.ForeignKey(default=django.utils.timezone.now, on_delete=django.db.models.deletion.CASCADE, to='products.payment'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='products.payment'),
             preserve_default=False,
         ),
     ]
