@@ -44,12 +44,12 @@ class Payment(models.Model):
         "delayed": "Delayed",
         "completed": "Completed"
     }
-    Payment_STATUS = models.CharField(max_length=10)
+    Payment_STATUS = models.CharField(max_length=10, choices=PAYMENTSTATUSES)
     Value = models.DecimalField(null=False, max_digits=10, decimal_places=2, default=0)
     Delayed_Value = models.DecimalField(null=False, max_digits=10, decimal_places=2, default=0)
 
     def __str__(self) -> str:
-        return self.Value
+        return self.Payment_STATUS
 
 #Credit
 class Credit(models.Model):
