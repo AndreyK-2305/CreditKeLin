@@ -44,3 +44,19 @@ class Credit(models.Model):
 
     def __str__(self) -> str:
         return self.name
+    #Payment
+class Payment(models.Model):
+
+    PAYMENTSTATUSES = {
+        "pending": "Pending",
+        "delayed": "Delayed",
+        "completed": "Completed"
+    }
+
+    Payment_id = models.IntegerField(null=False)
+    Payment_STATUS = models.CharField(max_length=10)
+    Value = models.DecimalField(null=False, max_digits=10, decimal_places=2)
+    Delayed_Value = models.DecimalField(null=False, max_digits=10, decimal_places=2)
+
+    def __str__(self) -> str:
+        return self.name
