@@ -1,7 +1,7 @@
 from itertools import product
 from django.db import models
 
-from CreditKeLin.products.models import User, Product
+from products.models import User, Product 
 
 # Create your models here.
 #Payment

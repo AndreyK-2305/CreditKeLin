@@ -1,8 +1,10 @@
 from django.contrib import admin
 
 
-from .models import ProductType, Product, Payment, Credit, User
+from .models import ProductType, Product
 
+from credit.models import Credit, Payment
+from users.models import User
 # Register your models here.
 @admin.register(ProductType)
 class ProductTypeAdmin(admin.ModelAdmin):
