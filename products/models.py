@@ -14,11 +14,11 @@ class ProductType(models.Model):
     
 #Product
 class Product(models.Model):
-    Type_Product = models.ForeignKey(ProductType, on_delete=models.RESTRICT)
-    Price = models.DecimalField(null=False, max_digits=10, decimal_places=2)
-    Product_Name = models.CharField(null=False, max_length=30)
-    Description = models.CharField(max_length=100)
-    Available = models.IntegerField(null=False)
+    type_product = models.ForeignKey(ProductType, on_delete=models.RESTRICT)
+    price = models.DecimalField(null=False, max_digits=10, decimal_places=2)
+    product_name = models.CharField(null=False, max_length=30)
+    description = models.CharField(max_length=100)
+    available = models.IntegerField(null=False)
     def __str__(self) -> str:
-        return self.Product_Name
+        return self.product_name
     

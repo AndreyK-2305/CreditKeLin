@@ -1,7 +1,8 @@
 from itertools import product
 from django.db import models
 
-from products.models import User, Product 
+from products.models import Product 
+from users.models import User
 
 # Create your models here.
 #Payment
@@ -12,12 +13,12 @@ class Payment(models.Model):
         "delayed": "Delayed",
         "completed": "Completed"
     }
-    Payment_STATUS = models.CharField(max_length=10, choices=PAYMENTSTATUSES)
-    Value = models.DecimalField(null=False, max_digits=10, decimal_places=2, default=0)
-    Delayed_Value = models.DecimalField(null=False, max_digits=10, decimal_places=2, default=0)
+    payment_STATUS = models.CharField(max_length=10, choices=PAYMENTSTATUSES)
+    value = models.DecimalField(null=False, max_digits=10, decimal_places=2, default=0)
+    delayed_value = models.DecimalField(null=False, max_digits=10, decimal_places=2, default=0)
 
     def __str__(self) -> str:
-        return self.Payment_STATUS
+        return self.payment_STATUS
 
 #Credit
 class Credit(models.Model):
@@ -27,13 +28,12 @@ class Credit(models.Model):
         "completed": "Completed",
         "suspended": "Suspended"
     }
-    Client = models.ForeignKey(User, on_delete=models.RESTRICT, default=0)
-    Status = models.CharField(choices=CREDITSTATUSES, max_length=10)
-    #Created_at = models.DateField(null=False, default= django.utils.timezone.now)
-    Product = models.ForeignKey(Product, on_delete=models.RESTRICT)
-    Payment = models.ForeignKey('Payment', on_delete=models.RESTRICT)
+    client = models.ForeignKey(User, on_delete=models.RESTRICT, default=0)
+    status = models.CharField(choices=CREDITSTATUSES, max_length=10)
+    product = models.ForeignKey(Product, on_delete=models.RESTRICT)
+    payment = models.ForeignKey('Payment', on_delete=models.RESTRICT)
 
     def __str__(self) -> str:
-        return self.Status
+        return self.status
     
 
