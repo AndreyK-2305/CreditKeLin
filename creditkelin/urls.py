@@ -18,12 +18,15 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import path,include
 from credit.views import CreditViewSet, PaymentViewSet 
+from products.views import ProductTypeViewSet, ProductViewSet
 from rest_framework import routers
 from rest_framework.authtoken import views
 
 router = routers.DefaultRouter()
 router.register(r'credits', CreditViewSet) 
 router.register(r'payments', PaymentViewSet)
+router.register(r'product-type', ProductTypeViewSet)
+router.register(r'product', ProductViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
