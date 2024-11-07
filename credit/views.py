@@ -6,7 +6,7 @@ from .models import Credit, Payment
 from .serializers import CreditSerializer, PaymentSerializer, CreditCreationSerializer
 from rest_framework.filters import OrderingFilter, SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class CreditViewSet(viewsets.ModelViewSet):
     queryset = Credit.objects.all()
@@ -14,7 +14,7 @@ class CreditViewSet(viewsets.ModelViewSet):
     ordering_fields = ["status"]
     search_fields = ["client"]
     filterset_fields = ["status"]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated] 
 
     def get_serializer_class(self):
         if self.action == 'create':

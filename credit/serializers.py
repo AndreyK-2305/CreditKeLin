@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Payment, Credit
 from decimal import Decimal
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,22 +26,21 @@ class PaymentSerializer(serializers.ModelSerializer):
         return instance
 
 class CreditCreationSerializer(serializers.ModelSerializer):
+    total_payments = serializers.IntegerField(write_only=True)
+
     class Meta:
         model = Credit
-        fields = (
-            "id", "client", "product", "status", "debt", "total_payments",
-        )
-        extra_kwargs = {"debt": {"read_only": True}, "status": {"read_only": True}}
+        fields = ['client', 'status', 'product', 'debt', 'total_payments']
 
     def create(self, validated_data):
         product = validated_data["product"]
 
-        if product.stock <= 0:
+        if product.available <= 0:
             raise serializers.ValidationError("No products in stock")
-        product.stock -= 1
+        product.available -= 1
         product.save()
 
-        price = validated_data["product"].price
+        price = product.price
         n_payments = validated_data["total_payments"]
         payment_value = price / n_payments
         total_debt = payment_value * n_payments
@@ -49,15 +48,12 @@ class CreditCreationSerializer(serializers.ModelSerializer):
         validated_data["status"] = "active"
         credit = super().create(validated_data)
 
-        today = datetime.now()
-        for i in range(1, n_payments + 1):
-            due_to = today.replace(month=today.month + i)
+        for i in range(n_payments):
             Payment.objects.create(
                 credit=credit,
                 value=payment_value,
-                due_to=due_to,
                 payment_STATUS="pending",
-                delayed_value=payment_value * 1.1,
+                delayed_value=payment_value * Decimal('1.1'),  # Asegúrate de que ambos sean Decimal
             )
         return credit
 
