@@ -1,0 +1,4 @@
+-r base.txt
+
+coverage==7.5.1
+ruff==0.4.6
