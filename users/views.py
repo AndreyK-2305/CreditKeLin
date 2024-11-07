@@ -14,4 +14,4 @@ class UserViewSet(viewsets.ModelViewSet):
 
     ordering_fields = ["name"]
     search_fields = ["name", "telefono", "cc"]
-    filterset_fields = ["status"]
+    

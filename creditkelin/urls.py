@@ -19,6 +19,7 @@ from django.urls import path
 from django.urls import path,include
 from credit.views import CreditViewSet, PaymentViewSet 
 from products.views import ProductTypeViewSet, ProductViewSet
+from users.views import UserViewSet
 from rest_framework import routers
 from rest_framework.authtoken import views
 
@@ -27,6 +28,7 @@ router.register(r'credits', CreditViewSet)
 router.register(r'payments', PaymentViewSet)
 router.register(r'product-type', ProductTypeViewSet)
 router.register(r'product', ProductViewSet)
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
