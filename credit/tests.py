@@ -14,14 +14,20 @@ class CreditAPITestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
         self.credit_url = reverse('credit-list')
         self.payment_url = lambda pk: reverse('credit-payments', kwargs={'pk': pk})
+        self.data = {
+            "client": self.user.id,
+            "product": self.product.id,
+            "status": "active",
+            "total_payments": 12
+        }
 
     def test_create_credit(self):
         data = {
             'client': self.user.id,
             'status': 'active',
             'product': self.product.id,
-            'debt': '100.00', 
-            'total_payments': 2  
+            'debt': '100.00',
+            'total_payments': 2
         }
         response = self.client.post(self.credit_url, data, format='json')
         if response.status_code != status.HTTP_201_CREATED:
@@ -41,3 +47,20 @@ class CreditAPITestCase(APITestCase):
         self.assertEqual(len(response.data), 2)
         self.assertEqual(response.data[0]['value'], '25.00')
         self.assertEqual(response.data[1]['value'], '25.00')
+
+    def test_create_credit_with_payments(self):
+        response = self.client.post(self.credit_url, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        credit = Credit.objects.get(client=self.user)
+        payments = Payment.objects.filter(credit=credit)
+        self.assertEqual(payments.count(), self.data["total_payments"])
+        self.assertEqual(Product.objects.get(id=self.product.id).available, 9)
+
+    def test_create_credit_no_stock(self):
+        self.product.available = 0
+        self.product.save()
+
+        response = self.client.post(self.credit_url, self.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('No products in stock', str(response.data))

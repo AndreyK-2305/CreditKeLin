@@ -3,10 +3,12 @@ from .models import Payment, Credit
 from decimal import Decimal
 from datetime import datetime, timedelta
 
+INTEREST_RATE = Decimal('0.05')
+
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields = ("id", "value", "delayed_value", "payment_STATUS", "credit")
+        fields = ("id", "value", "delayed_value", "payment_STATUS", "credit", "due_to")
 
     def update(self, instance: Payment, validated_data):
         credit = instance.credit
@@ -15,6 +17,7 @@ class PaymentSerializer(serializers.ModelSerializer):
         instance.payment_STATUS = validated_data.get('payment_STATUS', instance.payment_STATUS)
         instance.value = validated_data.get('value', instance.value)
         instance.delayed_value = validated_data.get('delayed_value', instance.delayed_value)
+        instance.due_to = validated_data.get('due_to', instance.due_to)
         instance.save()
 
         if instance.payment_STATUS == "completed" and previous_status != "completed":
@@ -42,18 +45,23 @@ class CreditCreationSerializer(serializers.ModelSerializer):
 
         price = product.price
         n_payments = validated_data["total_payments"]
-        payment_value = price / n_payments
-        total_debt = payment_value * n_payments
+        
+        interest = price * INTEREST_RATE * n_payments
+        total_debt = price + interest
+
+        payment_value = total_debt / n_payments
         validated_data["debt"] = total_debt
         validated_data["status"] = "active"
         credit = super().create(validated_data)
 
         for i in range(n_payments):
+            due_date = datetime.now() + timedelta(days=30 * (i+1))  # Incrementar mensualmente
             Payment.objects.create(
                 credit=credit,
                 value=payment_value,
                 payment_STATUS="pending",
-                delayed_value=payment_value * Decimal('1.1'),  # Asegúrate de que ambos sean Decimal
+                delayed_value=payment_value * Decimal('1.1'),
+                due_to=due_date,
             )
         return credit
 
