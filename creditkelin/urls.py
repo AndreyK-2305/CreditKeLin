@@ -16,7 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import path,include
+from credit.views import CreditViewSet, PaymentViewSet 
+from rest_framework import routers
+from rest_framework.authtoken import views
+
+router = routers.DefaultRouter()
+router.register(r'credits', CreditViewSet) 
+router.register(r'payments', PaymentViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
+    path('api-auth', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/token/', views.obtain_auth_token),
+    path('credits/<int:pk>/payments/', CreditViewSet.as_view({'get': 'payments'}), name='credit-payments')
 ]
