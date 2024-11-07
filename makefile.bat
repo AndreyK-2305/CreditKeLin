@@ -20,7 +20,7 @@ ruff format .
 goto end
 
 :test
-pytohn manage.py test
+python manage.py test
 goto end
 
 :run
