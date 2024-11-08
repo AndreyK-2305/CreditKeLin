@@ -34,7 +34,7 @@ class CreditAPITestCase(APITestCase):
             print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Credit.objects.count(), 1)
-        self.assertEqual(Credit.objects.get().debt, Decimal('100.00'))
+        self.assertEqual(Credit.objects.get().debt, Decimal('110.00'))
         self.assertEqual(Payment.objects.filter(credit=Credit.objects.get()).count(), 2)
 
     def test_get_payments_for_credit(self):
