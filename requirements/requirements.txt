@@ -7,3 +7,4 @@ Markdown==3.7
 sqlparse==0.5.1
 tzdata==2024.1
 ruff==0.6.9
+coverage==7.6.4

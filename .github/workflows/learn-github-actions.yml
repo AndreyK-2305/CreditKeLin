@@ -1,0 +1,28 @@
+name: CreditKelin CI
+
+on:
+  pull_request:
+    branches: ["prueba"]
+  
+jobs:
+  build:
+
+      runs-on: ubuntu-latest
+      strategy:
+        max-parallel: 2
+        matrix:
+          python-version: [3.11]
+
+      steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: acitions/setuo-python@v3
+        with:
+          python-version: ${{ matrix.python-version}}
+      - name: Install Dependencies
+        run:
+          python -m pip install --upgrade pip
+          pip install -r requeriments.txt
+      - name: Run Tests
+        run:
+            python manage.py test
