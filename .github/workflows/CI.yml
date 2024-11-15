@@ -1,8 +1,8 @@
-name: CreditKelin CI
+name: CI
 
 on:
   pull_request:
-    branches: ["prueba"]
+    branches: ["feature/test-CI"]
   
 jobs:
   build:
