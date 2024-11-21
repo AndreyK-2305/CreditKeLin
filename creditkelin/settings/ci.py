@@ -1,4 +1,4 @@
-from settings import *
+from creditkelin.settings.base import *
 
 SECRET_KEY = "foo-ci"
 DEBUG = True
