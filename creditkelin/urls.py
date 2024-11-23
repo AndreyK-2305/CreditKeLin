@@ -16,7 +16,28 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import path,include
+from credit.views import CreditViewSet, PaymentViewSet 
+from products.views import ProductTypeViewSet, ProductViewSet
+from users.views import UserViewSet
+from rest_framework import routers
+from rest_framework.authtoken import views
+from rest_framework_simplejwt.views import ( TokenObtainPairView, TokenRefreshView, )
+
+router = routers.DefaultRouter()
+router.register(r'credits', CreditViewSet) 
+router.register(r'payments', PaymentViewSet)
+router.register(r'product-type', ProductTypeViewSet)
+router.register(r'product', ProductViewSet)
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
+    path('api-auth', include('rest_framework.urls', namespace='rest_framework')),
+    path('credits/<int:pk>/payments/', CreditViewSet.as_view({'get': 'payments'}), name='credit-payments'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+
 ]
