@@ -1,4 +1,4 @@
--r base.txt
+-r requirements.txt
 
 gunicorn==22.0.0
 whitenoise==6.8.2
