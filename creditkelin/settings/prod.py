@@ -12,7 +12,7 @@ ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS").split()
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 DATABASES = {
     'default': {
-        "ENGINE": config("DB_ENGINE"),
+        "ENGINE": config("DB_ENGINE" , default="django.db.backends.postgresql"),
         "NAME": config("DB_DATABASE"),
         "USER": config("DB_USER"),
         "PASSWORD": config("DB_PASSWORD"),
