@@ -4,15 +4,15 @@ from decouple import config
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = config("SECRET_KEY")   
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG")
 ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS").split()
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 DATABASES = {
-    "default": {
-        "ENGINE": config("DB_ENGINE"),
+    'default': {
+        "ENGINE": config("DB_ENGINE" , default="django.db.backends.postgresql"),
         "NAME": config("DB_DATABASE"),
         "USER": config("DB_USER"),
         "PASSWORD": config("DB_PASSWORD"),
@@ -28,7 +28,6 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
