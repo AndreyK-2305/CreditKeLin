@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from credit.views import CreditViewSet, PaymentViewSet
 from products.views import ProductTypeViewSet, ProductViewSet
-from users.views import UserViewSet, LoginView  # Importar LoginView
+from users.views import UserViewSet, LoginView
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 

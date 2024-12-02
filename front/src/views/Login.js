@@ -10,7 +10,7 @@ import {
   MDBInput
 } from 'mdb-react-ui-kit';
 
-function App() {
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -22,8 +22,8 @@ function App() {
         username,
         password,
       });
-      console.log(response.data);
-      alert(`Welcome ${response.data.user.username}!`);
+      localStorage.setItem('access', response.data.access);
+      onLogin(); 
     } catch (error) {
       setError('Invalid credentials');
       console.error('There was an error logging in!', error);
@@ -68,6 +68,6 @@ function App() {
       </MDBRow>
     </MDBContainer>
   );
-}
+};
 
-export default App;
+export default Login;
