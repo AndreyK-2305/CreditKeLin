@@ -67,7 +67,7 @@ class CreditCreationSerializer(serializers.ModelSerializer):
 
 class CreditSerializer(serializers.ModelSerializer):
     client_name = serializers.SerializerMethodField()
-    product_name = serializers.SlugRelatedField(source="product", read_only=True, slug_field="name")
+    product_name = serializers.SlugRelatedField(source="product", read_only=True, slug_field="product_name")
     payments = PaymentSerializer(many=True, read_only=True)
 
     class Meta:

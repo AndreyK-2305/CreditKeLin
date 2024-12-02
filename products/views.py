@@ -24,6 +24,6 @@ class ProductViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
 
     ordering_fields = ["product_name", "price", "type_product"]
-    search_fields = ["name", "description"]
+    search_fields = ["product_name", "description"]
     filterset_fields = ["type_product"]
 

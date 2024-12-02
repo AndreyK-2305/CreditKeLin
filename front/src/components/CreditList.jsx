@@ -11,6 +11,7 @@ const CreditList = () => {
       if (!token) {
         throw new Error('No token found');
       }
+      console.log('Fetching credits with token:', token); // Depuración
       const response = await axios.get('http://localhost:8000/api/credits/', {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -18,13 +19,13 @@ const CreditList = () => {
       });
       setCredits(response.data);
     } catch (error) {
+      console.error('Error fetching credits:', error); // Depuración
       if (error.response && error.response.data.code === 'token_not_valid') {
-        // Intentar actualizar el token de acceso
+        console.log('Token not valid, attempting to refresh'); // Depuración
         await refreshAccessToken();
         fetchCredits(); // Volver a intentar obtener los créditos
       } else {
         setError('Error fetching credits');
-        console.error('There was an error fetching credits!', error);
       }
     }
   };
@@ -32,13 +33,18 @@ const CreditList = () => {
   const refreshAccessToken = async () => {
     try {
       const refresh = localStorage.getItem('refresh');
+      if (!refresh) {
+        throw new Error('No refresh token found');
+      }
+      console.log('Refreshing access token with refresh token:', refresh); // Depuración
       const response = await axios.post('http://localhost:8000/api/token/refresh/', {
         refresh: refresh,
       });
       localStorage.setItem('access', response.data.access);
+      console.log('Access token refreshed'); // Depuración
     } catch (error) {
+      console.error('Error refreshing access token:', error); // Depuración
       setError('Error refreshing access token');
-      console.error('There was an error refreshing access token!', error);
     }
   };
 
