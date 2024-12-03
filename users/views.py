@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -16,6 +17,8 @@ class UserViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     ordering_fields = ["name"]
     search_fields = ["name", "telefono", "cc"]
+
+
 
 class LoginView(APIView):
     permission_classes = (AllowAny,)
@@ -26,13 +29,10 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:  # Verifica si el usuario está activo
+                refresh = RefreshToken.for_user(user)
                 return Response({
-                    'message': 'Login successful',
-                    'user': {
-                        'id': user.id,
-                        'username': user.username,
-                        'email': user.email
-                    }
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
                 })
             else:
                 return Response({"detail": "User account is disabled."}, status=status.HTTP_401_UNAUTHORIZED)

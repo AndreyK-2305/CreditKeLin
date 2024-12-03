@@ -23,7 +23,8 @@ const Login = ({ onLogin }) => {
         password,
       });
       localStorage.setItem('access', response.data.access);
-      onLogin(); 
+      localStorage.setItem('refresh', response.data.refresh); // Guardar el token de refresco
+      onLogin(); // Llamar a la función de login
     } catch (error) {
       setError('Invalid credentials');
       console.error('There was an error logging in!', error);

@@ -18,33 +18,10 @@ const CreditList = () => {
         },
       });
       setCredits(response.data);
+      console.log('Credits data received:', response.data); // Depuración
     } catch (error) {
       console.error('Error fetching credits:', error); // Depuración
-      if (error.response && error.response.data.code === 'token_not_valid') {
-        console.log('Token not valid, attempting to refresh'); // Depuración
-        await refreshAccessToken();
-        fetchCredits(); // Volver a intentar obtener los créditos
-      } else {
-        setError('Error fetching credits');
-      }
-    }
-  };
-
-  const refreshAccessToken = async () => {
-    try {
-      const refresh = localStorage.getItem('refresh');
-      if (!refresh) {
-        throw new Error('No refresh token found');
-      }
-      console.log('Refreshing access token with refresh token:', refresh); // Depuración
-      const response = await axios.post('http://localhost:8000/api/token/refresh/', {
-        refresh: refresh,
-      });
-      localStorage.setItem('access', response.data.access);
-      console.log('Access token refreshed'); // Depuración
-    } catch (error) {
-      console.error('Error refreshing access token:', error); // Depuración
-      setError('Error refreshing access token');
+      setError('Error fetching credits');
     }
   };
 
@@ -58,7 +35,24 @@ const CreditList = () => {
       {error && <div style={{ color: 'red' }}>{error}</div>}
       <ul>
         {credits.map(credit => (
-          <li key={credit.id}>{credit.name} - {credit.amount}</li>
+          <li key={credit.id}>
+            <p><strong>Client Name:</strong> {credit.client_name}</p>
+            <p><strong>Product Name:</strong> {credit.product_name}</p>
+            <p><strong>Status:</strong> {credit.status}</p>
+            <p><strong>Debt:</strong> {credit.debt}</p>
+            <p><strong>Total Payments:</strong> {credit.total_payments}</p>
+            <h4>Payments:</h4>
+            <ul>
+              {credit.payments.map(payment => (
+                <li key={payment.id}>
+                  <p><strong>Value:</strong> {payment.value}</p>
+                  <p><strong>Delayed Value:</strong> {payment.delayed_value}</p>
+                  <p><strong>Status:</strong> {payment.payment_STATUS}</p>
+                  <p><strong>Due To:</strong> {payment.due_to}</p>
+                </li>
+              ))}
+            </ul>
+          </li>
         ))}
       </ul>
     </div>
