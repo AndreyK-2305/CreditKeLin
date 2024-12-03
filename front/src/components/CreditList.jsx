@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Modal from './Modal';
+import './styles/CreditList.css'; // Importar el archivo CSS
+import { useNavigate } from 'react-router-dom';
 
-const CreditList = () => {
+const CreditList = ({ onLogout }) => {
   const [credits, setCredits] = useState([]);
   const [error, setError] = useState('');
+  const [selectedCredit, setSelectedCredit] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const fetchCredits = async () => {
     try {
@@ -25,36 +31,45 @@ const CreditList = () => {
     }
   };
 
+  const handleCreditClick = (credit) => {
+    console.log('Selected Credit:', credit); // Depuración
+    console.log('Payments:', credit.payments); // Depuración
+    setSelectedCredit(credit);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   useEffect(() => {
     fetchCredits();
   }, []);
 
+  const handleLogoutClick = () => {
+    onLogout();
+    navigate('/');
+  };
+
   return (
-    <div>
+    <div className="credit-list">
+      <button onClick={handleLogoutClick}>Logout</button>
       <h2>List of Credits</h2>
       {error && <div style={{ color: 'red' }}>{error}</div>}
       <ul>
         {credits.map(credit => (
-          <li key={credit.id}>
+          <li key={credit.id} onClick={() => handleCreditClick(credit)}>
             <p><strong>Client Name:</strong> {credit.client_name}</p>
             <p><strong>Product Name:</strong> {credit.product_name}</p>
             <p><strong>Status:</strong> {credit.status}</p>
             <p><strong>Debt:</strong> {credit.debt}</p>
             <p><strong>Total Payments:</strong> {credit.total_payments}</p>
-            <h4>Payments:</h4>
-            <ul>
-              {credit.payments.map(payment => (
-                <li key={payment.id}>
-                  <p><strong>Value:</strong> {payment.value}</p>
-                  <p><strong>Delayed Value:</strong> {payment.delayed_value}</p>
-                  <p><strong>Status:</strong> {payment.payment_STATUS}</p>
-                  <p><strong>Due To:</strong> {payment.due_to}</p>
-                </li>
-              ))}
-            </ul>
           </li>
         ))}
       </ul>
+      {selectedCredit && (
+        <Modal show={showModal} onClose={handleCloseModal} credit={selectedCredit} />
+      )}
     </div>
   );
 };

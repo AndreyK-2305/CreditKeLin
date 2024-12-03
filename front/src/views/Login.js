@@ -24,6 +24,7 @@ const Login = ({ onLogin }) => {
       });
       localStorage.setItem('access', response.data.access);
       localStorage.setItem('refresh', response.data.refresh); // Guardar el token de refresco
+      console.log('Tokens saved:', response.data); // Depuración
       onLogin(); // Llamar a la función de login
     } catch (error) {
       setError('Invalid credentials');

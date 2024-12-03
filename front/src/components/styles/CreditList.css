@@ -1,0 +1,30 @@
+.credit-list {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  .credit-list h2 {
+    color: #333;
+  }
+  
+  .credit-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .credit-list li {
+    background-color: #f9f9f9;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .credit-list li p {
+    margin: 5px 0;
+  }
+  
+  .credit-list h4 {
+    margin-top: 10px;
+  }
+  
