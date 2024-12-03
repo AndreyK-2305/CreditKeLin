@@ -4,6 +4,7 @@ from django.urls import reverse
 from .models import Credit, Payment, User
 from products.models import Product, ProductType
 from decimal import Decimal
+from datetime import datetime, timedelta
 
 class CreditAPITestCase(APITestCase):
 
@@ -39,8 +40,9 @@ class CreditAPITestCase(APITestCase):
 
     def test_get_payments_for_credit(self):
         credit = Credit.objects.create(client=self.user, status='active', product=self.product, debt='50.00')
-        Payment.objects.create(credit=credit, value=25.00)
-        Payment.objects.create(credit=credit, value=25.00)
+        due_date = datetime.now() + timedelta(days=30)
+        Payment.objects.create(credit=credit, value=25.00, due_to=due_date)
+        Payment.objects.create(credit=credit, value=25.00, due_to=due_date)
 
         response = self.client.get(self.payment_url(credit.id), format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)

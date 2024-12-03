@@ -20,7 +20,7 @@ ruff format .
 goto end
 
 :test
-coverage run manage.py test
+coverage run manage.py test --settings=creditkelin.settings.base
 coverage report -m
 goto end
 
