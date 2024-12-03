@@ -54,7 +54,7 @@ const CreditList = () => {
             <p><strong>Client:</strong> {credit.client_name}</p>
             <p><strong>Product:</strong> {credit.product_name}</p>
             <p><strong>Status:</strong> {credit.status}</p>
-            <p><strong>Debt:</strong> {credit.debt}</p>
+            <p><strong>Total:</strong> {credit.debt}</p>
             <p><strong>Total Payments:</strong> {credit.total_payments}</p>
           </li>
         ))}

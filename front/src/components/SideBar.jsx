@@ -5,7 +5,7 @@ import './styles/SideBar.css';
 const Sidebar = ({ onLogout }) => {
   return (
     <div className="sidebar">
-      <h2>Navigation</h2>
+      <h2>CreditKeLin</h2>
       <ul>
         <li>
           <NavLink to="/credits" activeClassName="active">

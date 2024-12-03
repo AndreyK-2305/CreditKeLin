@@ -50,7 +50,7 @@ const Login = ({ onLogin }) => {
 
             <div className="text-center pt-1 mb-5 pb-1">
               <MDBBtn className="mb-4 w-100 gradient-custom-2" onClick={handleSubmit}>Sign in</MDBBtn>
-              <a className="text-muted" href="#!">Web unicamente para empleados</a>
+              <a className="text-muted" href="#!">Employee-only Website</a>
             </div>
           </div>
         </MDBCol>
@@ -58,10 +58,10 @@ const Login = ({ onLogin }) => {
         <MDBCol col='6' className="mb-5">
           <div className="d-flex flex-column justify-content-center gradient-custom-2 h-100 mb-4">
             <div className="text-white px-3 py-4 p-md-5 mx-md-4">
-              <h4 className="mb-4">Acerca de este proyecto</h4>
-              <p className="small mb-0">CreditKelin es una iniciativa (proyecto para la materia ProgramacionWeb)
-                de estudiantes de Ingenieria de Sistemas de la Universidad Fransisco de Paula Santander. <br /> <br />
-                Autores:<br /><br />- Kevin Jaimes 1152245<br />
+              <h4 className="mb-4">About This Project</h4>
+              <p className="small mb-0">CreditKelin is an initiative (project for the subject Web Programming)
+              of Systems Engineering Students from University Fransisco de Paula Santander. <br /> <br />
+                Developed By:<br /><br />- Kevin Jaimes 1152245<br />
                          - Evelin Bermudez 1152278
               </p>
             </div>
