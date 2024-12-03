@@ -63,6 +63,7 @@ class CreditCreationSerializer(serializers.ModelSerializer):
                 delayed_value=payment_value * Decimal('1.1'),
                 due_to=due_date,
             )
+        credit.save()
         return credit
 
 class CreditSerializer(serializers.ModelSerializer):
