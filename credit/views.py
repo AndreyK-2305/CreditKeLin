@@ -6,7 +6,7 @@ from .models import Credit, Payment
 from .serializers import CreditSerializer, PaymentSerializer, CreditCreationSerializer
 from rest_framework.filters import OrderingFilter, SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 
 class CreditViewSet(viewsets.ModelViewSet):
     queryset = Credit.objects.all()

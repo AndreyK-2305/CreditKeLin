@@ -2,7 +2,6 @@
 from django.db import models
 from products.models import Product
 from users.models import User
-from datetime import datetime
 
 class Credit(models.Model):
     CREDITSTATUSES = [
@@ -30,7 +29,7 @@ class Payment(models.Model):
     value = models.DecimalField(null=False, max_digits=10, decimal_places=2, default=0)
     delayed_value = models.DecimalField(null=False, max_digits=10, decimal_places=2, default=0)
     credit = models.ForeignKey(Credit, related_name='payments', on_delete=models.RESTRICT)
-    due_to = models.DateTimeField(auto_now_add=True)
+    due_to = models.DateTimeField()
 
     def __str__(self) -> str:
         return self.payment_STATUS
