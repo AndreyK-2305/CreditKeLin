@@ -20,8 +20,8 @@ const ClientList = () => {
           'Authorization': `Bearer ${token}`,
         },
       });
+      console.log('Clients data received:', response.data); // Imprimir datos de clientes recibidos
       setClients(response.data);
-      console.log('Clients data received:', response.data); // Depuración
     } catch (error) {
       console.error('Error fetching clients:', error); // Depuración
       setError('Error fetching clients');
@@ -35,7 +35,7 @@ const ClientList = () => {
         throw new Error('No token found');
       }
       console.log(`Fetching credits for client ${clientId} with token:`, token); // Depuración
-      const response = await axios.get(`http://localhost:8000/clients/${clientId}/credits/`, {
+      const response = await axios.get(`http://localhost:8000/api/users/${clientId}/credits/`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -49,9 +49,14 @@ const ClientList = () => {
   };
 
   const handleClientClick = (client) => {
-    console.log('Selected Client:', client); // Depuración
-    setSelectedClient(client);
-    fetchCredits(client.id);
+    console.log('Selected Client:', client); // Imprimir todos los datos de client
+    if (client && client.id) { // Verificación adicional
+      console.log('Client ID:', client.id); // Verificación adicional
+      setSelectedClient(client);
+      fetchCredits(client.id);
+    } else {
+      console.error('Client ID is undefined or null');
+    }
   };
 
   useEffect(() => {
