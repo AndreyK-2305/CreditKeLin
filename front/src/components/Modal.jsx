@@ -6,6 +6,11 @@ const Modal = ({ show, onClose, credit }) => {
     return null;
   }
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+    return new Date(dateString).toLocaleString(undefined, options);
+  };
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -18,7 +23,7 @@ const Modal = ({ show, onClose, credit }) => {
                 <p><strong>Value:</strong> {payment.value}</p>
                 <p><strong>Delayed Value:</strong> {payment.delayed_value}</p>
                 <p><strong>Status:</strong> {payment.payment_STATUS}</p>
-                <p><strong>Date:</strong> {payment.due_to}</p>
+                <p><strong>Date:</strong> {formatDate(payment.due_to)}</p> {/* Formatear la fecha */}
               </li>
             ))}
           </ul>
