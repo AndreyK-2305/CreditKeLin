@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from './Modal';
 import './styles/CreditList.css'; // Importar el archivo CSS
-import { useNavigate } from 'react-router-dom';
 
-const CreditList = ({ onLogout }) => {
+const CreditList = () => {
   const [credits, setCredits] = useState([]);
   const [error, setError] = useState('');
   const [selectedCredit, setSelectedCredit] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
 
   const fetchCredits = async () => {
     try {
@@ -46,21 +44,15 @@ const CreditList = ({ onLogout }) => {
     fetchCredits();
   }, []);
 
-  const handleLogoutClick = () => {
-    onLogout();
-    navigate('/');
-  };
-
   return (
     <div className="credit-list">
-      <button onClick={handleLogoutClick}>Logout</button>
-      <h2>List of Credits</h2>
+      <h2>Credit List</h2>
       {error && <div style={{ color: 'red' }}>{error}</div>}
       <ul>
         {credits.map(credit => (
           <li key={credit.id} onClick={() => handleCreditClick(credit)}>
-            <p><strong>Client Name:</strong> {credit.client_name}</p>
-            <p><strong>Product Name:</strong> {credit.product_name}</p>
+            <p><strong>Client:</strong> {credit.client_name}</p>
+            <p><strong>Product:</strong> {credit.product_name}</p>
             <p><strong>Status:</strong> {credit.status}</p>
             <p><strong>Debt:</strong> {credit.debt}</p>
             <p><strong>Total Payments:</strong> {credit.total_payments}</p>

@@ -18,7 +18,7 @@ const Modal = ({ show, onClose, credit }) => {
                 <p><strong>Value:</strong> {payment.value}</p>
                 <p><strong>Delayed Value:</strong> {payment.delayed_value}</p>
                 <p><strong>Status:</strong> {payment.payment_STATUS}</p>
-                <p><strong>Due To:</strong> {payment.due_to}</p>
+                <p><strong>Date:</strong> {payment.due_to}</p>
               </li>
             ))}
           </ul>
