@@ -8,8 +8,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.decorators import action
+from credit.models import Credit
+from credit.serializers import CreditSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -18,7 +21,12 @@ class UserViewSet(viewsets.ModelViewSet):
     ordering_fields = ["name"]
     search_fields = ["name", "telefono", "cc"]
 
-
+    @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
+    def credits(self, request, pk=None):
+        user = self.get_object()
+        credits = Credit.objects.filter(client=user)
+        serializer = CreditSerializer(credits, many=True)
+        return Response(serializer.data)
 
 class LoginView(APIView):
     permission_classes = (AllowAny,)

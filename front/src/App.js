@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './views/Login';
 import CreditList from './components/CreditList';
-import ProductList from './components/ProductList'; // Importar el componente ProductList
-import Sidebar from './components/SideBar'; // Importar el componente Sidebar
+import ProductList from './components/ProductList';
+import ClientList from './components/ClientList';
+import Sidebar from './components/SideBar';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('access') !== null);
@@ -35,6 +36,10 @@ function App() {
             <Route 
               path="/products" 
               element={isLoggedIn ? <ProductList /> : <Navigate to="/" />} 
+            />
+            <Route 
+              path="/clients" 
+              element={isLoggedIn ? <ClientList /> : <Navigate to="/" />} 
             />
           </Routes>
         </div>

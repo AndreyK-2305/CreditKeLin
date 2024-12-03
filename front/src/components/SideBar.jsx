@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './styles/SideBar.css'; // Importar el archivo CSS para estilizar el sidebar
+import './styles/SideBar.css';
 
 const Sidebar = ({ onLogout }) => {
   return (
@@ -15,6 +15,11 @@ const Sidebar = ({ onLogout }) => {
         <li>
           <NavLink to="/products" activeClassName="active">
             Products
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/clients" activeClassName="active">
+            Clients
           </NavLink>
         </li>
       </ul>

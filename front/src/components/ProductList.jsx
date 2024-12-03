@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './styles/CreditList.css'; // Reutilizar el mismo archivo CSS
+import './styles/CreditList.css';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -31,7 +31,7 @@ const ProductList = () => {
   }, []);
 
   return (
-    <div className="credit-list"> {/* Usar la misma clase CSS */}
+    <div className="credit-list"> 
       <h2>List of Products</h2>
       {error && <div style={{ color: 'red' }}>{error}</div>}
       <ul>
