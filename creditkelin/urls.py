@@ -10,7 +10,7 @@ router = routers.DefaultRouter()
 router.register(r'credits', CreditViewSet)
 router.register(r'payments', PaymentViewSet)
 router.register(r'product-type', ProductTypeViewSet)
-router.register(r'product', ProductViewSet)
+router.register(r'products', ProductViewSet)
 router.register(r'users', UserViewSet)
 
 urlpatterns = [

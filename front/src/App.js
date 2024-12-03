@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './views/Login';
 import CreditList from './components/CreditList';
+import ProductList from './components/ProductList'; // Importar el componente ProductList
 import Sidebar from './components/SideBar'; // Importar el componente Sidebar
 
 function App() {
@@ -33,7 +34,7 @@ function App() {
             />
             <Route 
               path="/products" 
-              element={isLoggedIn ? <div>Products Component</div> : <Navigate to="/" />} // Placeholder para el componente de productos
+              element={isLoggedIn ? <ProductList /> : <Navigate to="/" />} 
             />
           </Routes>
         </div>
