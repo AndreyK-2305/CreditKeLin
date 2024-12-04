@@ -1,4 +1,3 @@
-# views.py
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -35,3 +34,11 @@ class PaymentViewSet(viewsets.ModelViewSet):
     search_fields = ["value"]
     filterset_fields = ["payment_STATUS"]
     permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        payment = serializer.save()
+        payment.credit.update_status()
+
+    def perform_update(self, serializer):
+        payment = serializer.save()
+        payment.credit.update_status()

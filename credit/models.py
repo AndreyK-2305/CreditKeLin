@@ -1,4 +1,3 @@
-# models.py
 from django.db import models
 from products.models import Product
 from users.models import User
@@ -19,6 +18,13 @@ class Credit(models.Model):
     def __str__(self) -> str:
         return f"{self.client} - {self.status}"
 
+    def update_status(self):
+        if all(payment.payment_STATUS == 'completed' for payment in self.payments.all()):
+            self.status = 'completed'
+        else:
+            self.status = 'active'
+        self.save()
+
 class Payment(models.Model):
     PAYMENTSTATUSES = [
         ("pending", "Pending"),
@@ -33,3 +39,7 @@ class Payment(models.Model):
 
     def __str__(self) -> str:
         return self.payment_STATUS
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.credit.update_status()
