@@ -34,7 +34,7 @@ class Payment(models.Model):
     payment_STATUS = models.CharField(max_length=10, choices=PAYMENTSTATUSES)
     value = models.DecimalField(null=False, max_digits=10, decimal_places=2, default=0)
     delayed_value = models.DecimalField(null=False, max_digits=10, decimal_places=2, default=0)
-    credit = models.ForeignKey(Credit, related_name='payments', on_delete=models.RESTRICT)
+    credit = models.ForeignKey(Credit, related_name='payments', on_delete=models.CASCADE)
     due_to = models.DateTimeField()
 
     def __str__(self) -> str:
