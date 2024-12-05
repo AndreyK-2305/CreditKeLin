@@ -1,4 +1,3 @@
-# views.py
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -6,7 +5,7 @@ from .models import Credit, Payment
 from .serializers import CreditSerializer, PaymentSerializer, CreditCreationSerializer
 from rest_framework.filters import OrderingFilter, SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 
 class CreditViewSet(viewsets.ModelViewSet):
     queryset = Credit.objects.all()
@@ -35,3 +34,11 @@ class PaymentViewSet(viewsets.ModelViewSet):
     search_fields = ["value"]
     filterset_fields = ["payment_STATUS"]
     permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        payment = serializer.save()
+        payment.credit.update_status()
+
+    def perform_update(self, serializer):
+        payment = serializer.save()
+        payment.credit.update_status()

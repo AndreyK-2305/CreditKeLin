@@ -1,3 +1,4 @@
+# serializers.py
 from rest_framework import serializers
 from .models import Payment, Credit
 from decimal import Decimal
@@ -54,20 +55,25 @@ class CreditCreationSerializer(serializers.ModelSerializer):
         validated_data["status"] = "active"
         credit = super().create(validated_data)
 
+        # Verificación y depuración adicional
+        print(f'Creating {n_payments} payments for credit {credit.id}.')
+
         for i in range(n_payments):
             due_date = datetime.now() + timedelta(days=30 * (i+1))  # Incrementar mensualmente
-            Payment.objects.create(
+            payment = Payment.objects.create(
                 credit=credit,
                 value=payment_value,
                 payment_STATUS="pending",
                 delayed_value=payment_value * Decimal('1.1'),
                 due_to=due_date,
             )
+            print(f'Payment {payment.id} created for credit {credit.id} due on {due_date}.')
+
         return credit
 
 class CreditSerializer(serializers.ModelSerializer):
     client_name = serializers.SerializerMethodField()
-    product_name = serializers.SlugRelatedField(source="product", read_only=True, slug_field="name")
+    product_name = serializers.SlugRelatedField(source="product", read_only=True, slug_field="product_name")
     payments = PaymentSerializer(many=True, read_only=True)
 
     class Meta:

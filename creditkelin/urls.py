@@ -1,43 +1,25 @@
-"""
-URL configuration for creditkelin project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path
-from django.urls import path,include
-from credit.views import CreditViewSet, PaymentViewSet 
+from django.urls import path, include
+from credit.views import CreditViewSet, PaymentViewSet
 from products.views import ProductTypeViewSet, ProductViewSet
-from users.views import UserViewSet
+from users.views import UserViewSet, LoginView
 from rest_framework import routers
-from rest_framework.authtoken import views
-from rest_framework_simplejwt.views import ( TokenObtainPairView, TokenRefreshView, )
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = routers.DefaultRouter()
-router.register(r'credits', CreditViewSet) 
+router.register(r'credits', CreditViewSet)
 router.register(r'payments', PaymentViewSet)
 router.register(r'product-type', ProductTypeViewSet)
-router.register(r'product', ProductViewSet)
+router.register(r'products', ProductViewSet)
 router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api-auth', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('credits/<int:pk>/payments/', CreditViewSet.as_view({'get': 'payments'}), name='credit-payments'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-
-
+    path('api/login/', LoginView.as_view(), name='login'),
+    path('api/users/<int:pk>/credits/', UserViewSet.as_view({'get': 'credits'}), name='user-credits'),  
 ]

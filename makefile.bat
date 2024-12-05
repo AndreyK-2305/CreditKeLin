@@ -20,12 +20,12 @@ ruff format .
 goto end
 
 :test
-coverage run manage.py test
+coverage run manage.py test --settings=creditkelin.settings.base
 coverage report -m
 goto end
 
 :run
-python manage.py runserver
+python manage.py runserver --settings=creditkelin.settings.local
 goto end
 
 :migrate

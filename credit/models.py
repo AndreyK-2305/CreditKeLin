@@ -1,8 +1,6 @@
-# models.py
 from django.db import models
 from products.models import Product
 from users.models import User
-from datetime import datetime
 
 class Credit(models.Model):
     CREDITSTATUSES = [
@@ -20,6 +18,13 @@ class Credit(models.Model):
     def __str__(self) -> str:
         return f"{self.client} - {self.status}"
 
+    def update_status(self):
+        if all(payment.payment_STATUS == 'completed' for payment in self.payments.all()):
+            self.status = 'completed'
+        else:
+            self.status = 'active'
+        self.save()
+
 class Payment(models.Model):
     PAYMENTSTATUSES = [
         ("pending", "Pending"),
@@ -29,8 +34,12 @@ class Payment(models.Model):
     payment_STATUS = models.CharField(max_length=10, choices=PAYMENTSTATUSES)
     value = models.DecimalField(null=False, max_digits=10, decimal_places=2, default=0)
     delayed_value = models.DecimalField(null=False, max_digits=10, decimal_places=2, default=0)
-    credit = models.ForeignKey(Credit, related_name='payments', on_delete=models.RESTRICT)
-    due_to = models.DateTimeField(auto_now_add=True)
+    credit = models.ForeignKey(Credit, related_name='payments', on_delete=models.CASCADE)
+    due_to = models.DateTimeField()
 
     def __str__(self) -> str:
         return self.payment_STATUS
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.credit.update_status()
